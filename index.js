@@ -4,10 +4,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const clienteRoutes = require('./routes/clientes');
-const pedidoRoutes = require('./routes/pedidos');
-const produtoRoutes = require('./routes/produtos');
-const restauranteRoutes = require('./routes/restaurantes');
+const restaurante = require('./restaurante-api/routes/restaurantes');
 
 const app = express();
 app.use(express.json());
@@ -20,15 +17,16 @@ mongoose.connect(MONGO_URI, {
   useUnifiedTopology: true
 }).then(() => {
   console.log('Conectado ao MongoDB');
+  mongoose.set('strictQuery', false);
 }).catch(err => {
   console.error('Erro ao conectar ao MongoDB', err);
 });
 
-app.use('/clientes', clienteRoutes);
-app.use('/pedidos', pedidoRoutes);
-app.use('/produtos', produtoRoutes);
-app.use('/restaurantes', restauranteRoutes);
+app.get('/restaurantes', (req, res) => {
+  // Aqui você colocaria o código para lidar com a solicitação
+  res.send('Rota /restaurantes funcionando!');
+});
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
 });
